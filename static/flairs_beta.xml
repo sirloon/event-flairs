@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Event Flairs" height="300" author="Sebastien Lelong"
+     author_email="eventflairs@gmail.com">
+   <Require feature="google.calendar-0.5.read" />
+  </ModulePrefs>
+  <Content type="html">
+<![CDATA[
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<body>
+    <button id="authorize-button" style="visibility: hidden">Authorize</button>
+<script>
+
+	var clientId = '959975884343.apps.googleusercontent.com';
+	var scopes = 'https://www.googleapis.com/auth/calendar';
+
+	var currentEvent = {'cid' : null, 'eid' : null};
+	
+	function subscribeEventsCallback(e)
+	{
+		var json = 'No event';
+		if (e)
+		{
+			var eid = google.calendar.read.decode64(e["id"]).split(" ")[0];
+			var cid = e["calendar"]["email"];
+			// store info globally
+			currentEvent['eid']  = eid;
+			currentEvent['cid']  = cid;
+		}
+		
+		//json = gadgets.json.stringify(currentEvent);
+	};
+
+	function setGadgetData(evt,url)
+	{
+		if(url)
+		{
+			evt["gadget"] = new Object();
+			evt["gadget"]["iconLink"] = url;
+			evt["gadget"]["display"] = "chip";
+		}
+		else
+		{
+			delete evt["gadget"];
+		}
+	}
+
+	function updateEvent(evt,dreq,url)
+	{
+		setGadgetData(evt,url);
+		dreq['resource'] = evt;
+		var request = gapi.client.calendar.events.update(dreq).execute(
+			function(e){
+				console.log(e);
+				console.log("OK, refresh...");
+				google.calendar.refreshEvents();
+			}
+		);
+	}
+
+	function setIcon(url)
+	{
+		// from global var
+		var dreq = {'calendarId':currentEvent['cid'], 'eventId':currentEvent['eid']};
+		var allRecurringEvents = document.getElementById('recur').checked;
+		var request = gapi.client.calendar.events.get(dreq);
+		request.execute(function(evt){
+			// switch to recurringEventId if necessary
+			// Note: if it's not a recurring event, then there's no recurrentEventId key
+			//       that's the way we know it's recurrent here
+			// Note 2: we need to get one instance event, then the master, because we don't have access
+			//         to recurrintEventId without loading one of its instance. 
+			//         That's 3 API request in this case
+			if(allRecurringEvents && evt['recurringEventId'])
+			{
+				dreq['eventId'] = evt['recurringEventId'];
+				gapi.client.calendar.events.get(dreq).execute(function(newevt){
+					updateEvent(newevt,dreq,url);
+				})
+			}
+			else
+			{
+				updateEvent(evt,dreq,url);
+			}
+		});
+	}
+	
+	// The gadget containers request that we do NOT run any JS inline.
+	// Instead, register a callback handler.
+	gadgets.util.registerOnLoadHandler(function()
+		{
+			google.calendar.read.subscribeToEvents(subscribeEventsCallback);
+		}
+	    )
+	;
+	function handleClientLoad() {
+		window.setTimeout(checkAuth,1);
+	}
+
+	function checkAuth() {
+		gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
+	}
+
+	function handleAuthResult(authResult) {
+		var authorizeButton = document.getElementById('authorize-button');
+		if (authResult && !authResult.error) {
+			authorizeButton.style.visibility = 'hidden';
+			makeApiCall();
+		} else {
+			authorizeButton.style.visibility = '';
+			authorizeButton.onclick = handleAuthClick;
+		}
+	}
+	
+	function handleAuthClick(event) {
+		gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
+		return false;
+	}
+
+	function makeApiCall()
+	{
+		gapi.client.load("calendar","v3",function(resp)
+		{
+			console.log("Calendar v3 API loaded")
+		});
+	}
+
+</script>
+<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+
+<div id="out">
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/cake.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/fork.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/martini.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/gift.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/heart.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/happy.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sad.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/angry.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/home.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/work.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/car.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/plane.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/bike.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/bill.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/doctor.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/skull.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_football.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_baseball.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_basketball.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_hockey.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_golf.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_tennis.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_soccer.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_rugby.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/4.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/3.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/2.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/1.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/5.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/6.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/tv.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/book.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/9.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/10.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/11.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/12.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/8.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/7.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/phone.png"> 
+<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/vacation.png"> 
+
+
+<center>
+	<div style="color:blue;cursor:pointer;font-size:0.8em;" onclick="setIcon()">
+		<u>Remove current icon</u> 
+	</div>
+	<div>
+		<input id="recur" type="checkbox" checked="">
+		<label for="recur" style="font-size:0.8em"> All events in the series</label>
+	</div>
+</center>
+</div>
+
+<div style="font-size:0.6em;color:grey;">
+<div style="float:left;width:50%;text-align:left;"><a href="https://eventflairs.appspot.com">About</a></div>
+<div style="text-align:right">v2.0a</div>
+</div>
+
+
+</body>
+</html>
+
+]]>
+  </Content>
+</Module>
