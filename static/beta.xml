@@ -185,8 +185,8 @@
 </div>
 
 <div style="font-size:0.6em;color:grey;">
-<div style="float:left;width:50%;text-align:left;"><a href="https://eventflairs.appspot.com" target="_blank">About</a></div>
-<div style="text-align:right">v2.0c</div>
+<div style="float:left;width:50%;text-align:left;"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://event-flairs.googlecode.com/git/static/images/blank.png) center right no-repeat;padding-right: 13px;">About</a></div>
+<div style="text-align:right">v2.0d</div>
 </div>
 
 
