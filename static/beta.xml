@@ -67,6 +67,16 @@
 		var allRecurringEvents = document.getElementById('recur').checked;
 		var request = gapi.client.calendar.events.get(dreq);
 		request.execute(function(evt){
+			console.log(evt);
+			// {code: 403, message: "Daily Limit for Unauthenticated Use Exceeded. Continued use requires signup."....}
+			if(evt.error && evt.error['code'] == 403)
+			{
+				gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, function(res){
+					console.log("auth token refreshed ",res);
+					setIcon(url);
+				});
+				return;
+			}
 			// switch to recurringEventId if necessary
 			// Note: if it's not a recurring event, then there's no recurrentEventId key
 			//       that's the way we know it's recurrent here
@@ -185,8 +195,8 @@
 </div>
 
 <div style="font-size:0.6em;color:grey;">
-<div style="float:left;width:50%;text-align:left;"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://event-flairs.googlecode.com/git/static/images/blank.png) center right no-repeat;padding-right: 13px;">About</a></div>
-<div style="text-align:right">v2.0d</div>
+<div style="float:left;width:50%;text-align:left;"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">About</a></div>
+<div style="text-align:right">v2.0f</div>
 </div>
 
 
