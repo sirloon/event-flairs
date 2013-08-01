@@ -1,0 +1,20 @@
+event-flairs-2.0
+----------------
+
+Released 2013-08-01
+GAE version: 5
+
+ - fixed event flairs for recurrent events, gadget was only
+   tagging selected event, not all of the series
+ - fixed refresh, gadget (and original lab) after 1h required
+   to refresh to page with F5, not longer needed
+ - simple website with instructions and links
+
+event-flairs-1.0
+----------------
+
+Released 2013-07-21
+GAE version: 4
+
+ - initial release with minimal functionalities compared
+   to original google's lab.
