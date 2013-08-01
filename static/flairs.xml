@@ -16,8 +16,8 @@
 	var clientId = '959975884343.apps.googleusercontent.com';
 	var scopes = 'https://www.googleapis.com/auth/calendar';
 
-	var currentEvent = [null,null];
-
+	var currentEvent = {'cid' : null, 'eid' : null};
+	
 	function subscribeEventsCallback(e)
 	{
 		var json = 'No event';
@@ -25,37 +25,75 @@
 		{
 			var eid = google.calendar.read.decode64(e["id"]).split(" ")[0];
 			var cid = e["calendar"]["email"];
-			currentEvent = [eid,cid];
-			console.log("CurrentEvent: " + currentEvent);
+			// store info globally
+			currentEvent['eid']  = eid;
+			currentEvent['cid']  = cid;
 		}
 		
-		json = gadgets.json.stringify(currentEvent);
-		document.getElementById('debug').innerHTML = '<!--span>' + gadgets.util.escapeString(json) + '</span-->';
+		//json = gadgets.json.stringify(currentEvent);
 	};
+
+	function setGadgetData(evt,url)
+	{
+		if(url)
+		{
+			evt["gadget"] = new Object();
+			evt["gadget"]["iconLink"] = url;
+			evt["gadget"]["display"] = "chip";
+		}
+		else
+		{
+			delete evt["gadget"];
+		}
+	}
+
+	function updateEvent(evt,dreq,url)
+	{
+		setGadgetData(evt,url);
+		dreq['resource'] = evt;
+		var request = gapi.client.calendar.events.update(dreq).execute(
+			function(e){
+				console.log(e);
+				console.log("OK, refresh...");
+				google.calendar.refreshEvents();
+			}
+		);
+	}
 
 	function setIcon(url)
 	{
-		var request = gapi.client.calendar.events.get({'calendarId':currentEvent[1],'eventId':currentEvent[0]});
+		// from global var
+		var dreq = {'calendarId':currentEvent['cid'], 'eventId':currentEvent['eid']};
+		var allRecurringEvents = document.getElementById('recur').checked;
+		var request = gapi.client.calendar.events.get(dreq);
 		request.execute(function(evt){
-			if(url)
+			console.log(evt);
+			// {code: 403, message: "Daily Limit for Unauthenticated Use Exceeded. Continued use requires signup."....}
+			if(evt.error && evt.error['code'] == 403)
 			{
-				evt["gadget"] = new Object();
-				evt["gadget"]["iconLink"] = url;
-				evt["gadget"]["display"] = "chip";
+				gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, function(res){
+					console.log("auth token refreshed ",res);
+					setIcon(url);
+				});
+				return;
+			}
+			// switch to recurringEventId if necessary
+			// Note: if it's not a recurring event, then there's no recurrentEventId key
+			//       that's the way we know it's recurrent here
+			// Note 2: we need to get one instance event, then the master, because we don't have access
+			//         to recurrintEventId without loading one of its instance. 
+			//         That's 3 API request in this case
+			if(allRecurringEvents && evt['recurringEventId'])
+			{
+				dreq['eventId'] = evt['recurringEventId'];
+				gapi.client.calendar.events.get(dreq).execute(function(newevt){
+					updateEvent(newevt,dreq,url);
+				})
 			}
 			else
 			{
-				delete evt["gadget"];
+				updateEvent(evt,dreq,url);
 			}
-			console.log(evt);
-			var request = gapi.client.calendar.events.update({'calendarId':currentEvent[1],'eventId':currentEvent[0],'resource':evt}).execute(
-				function(evt){
-					console.log(evt);
-					console.log("OK, refresh...");
-					google.calendar.refreshEvents();
-					//window.setTimeout("google.calendar.refreshEvents()",1000);
-				}
-			);
 		});
 	}
 	
@@ -95,19 +133,10 @@
 	{
 		gapi.client.load("calendar","v3",function(resp)
 		{
-			console.log("loaded")
+			console.log("Calendar v3 API loaded")
 		});
 	}
 
-	function areFlairsShowing()
-	{
-		 var firstChild = body.children[0];
-		 if (firstChild && firstChild.tagName === "IMG")
-		 {
-		 	return firstChild;
-		}
-		return null;
-	}	
 </script>
 <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 
@@ -155,13 +184,20 @@
 
 
 <center>
-	<div style="color:blue; cursor:pointer" onclick="setIcon()">
+	<div style="color:blue;cursor:pointer;font-size:0.8em;" onclick="setIcon()">
 		<u>Remove current icon</u> 
+	</div>
+	<div>
+		<input id="recur" type="checkbox" checked="">
+		<label for="recur" style="font-size:0.8em"> All events in the series</label>
 	</div>
 </center>
 </div>
 
-<div id="debug"></div>
+<div style="font-size:0.6em;color:grey;">
+<div style="float:left;width:50%;text-align:left;"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">About</a></div>
+<div style="text-align:right">v2.0</div>
+</div>
 
 
 </body>
