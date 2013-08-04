@@ -343,7 +343,7 @@
 	</div>
 
 	<div style="float:left;width:30%;text-align:right;padding:2px;cursor:pointer;" onclick="resetUserFlairs()">
-		<img src="https://eventflairs.appspot.com/static/images/clear.png" width="12" height="12">
+		<img src="https://eventflairs.appspot.com/static/images/clear.gif" width="12" height="12">
 	</div>
 
 	<div style="float:left;width:10%;text-align:right;padding:2px;cursor:pointer;" onclick="restoreGoogleFlairs()">
