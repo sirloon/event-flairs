@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Module>
-  <ModulePrefs title="Event Flairs" height="300" author="Sebastien Lelong"
+  <ModulePrefs title="Event Flairs" height="100" author="Sebastien Lelong"
      author_email="eventflairs@gmail.com">
    <Require feature="google.calendar-0.5.read" />
+   <Require feature="dynamic-height"/>
+   <Require feature="setprefs"/>
   </ModulePrefs>
+  <UserPref name="custom_flairs" default_value="" datatype="hidden"/>
   <Content type="html">
 <![CDATA[
 
@@ -13,10 +16,169 @@
     <button id="authorize-button" style="visibility: hidden">Authorize</button>
 <script>
 
+	var CUSTOM_FLAIRS = "custom_flairs";
+
+
 	var clientId = '959975884343.apps.googleusercontent.com';
 	var scopes = 'https://www.googleapis.com/auth/calendar';
 
 	var currentEvent = {'cid' : null, 'eid' : null};
+
+	var originalFlairs = {"https://www.google.com/googlecalendar/icons/" : ["cake.png","fork.png","martini.png","gift.png","heart.png","happy.png","sad.png","angry.png","home.png","work.png","car.png","plane.png","bike.png","bill.png","doctor.png","skull.png","sport_football.png","sport_baseball.png","sport_basketball.png","sport_hockey.png","sport_golf.png","sport_tennis.png","sport_soccer.png","sport_rugby.png","4.png","3.png","2.png","1.png","5.png","6.png","tv.png","book.png","9.png","10.png","11.png","12.png","8.png","7.png","phone.png","vacation.png"]}; 
+
+	var delete_mode = false;
+
+	function flairFactory(url)
+	{
+		var img = document.createElement("img");
+		img.setAttribute("src",url);
+		img.setAttribute("width",16);
+		img.setAttribute("height",16);
+		img.setAttribute("style","cursor:pointer;padding-left:3px;");
+		img.setAttribute("onclick","setIcon(this)");
+		return img;
+	}
+
+	function getCustomFlairs()
+	{
+		var prefs = new gadgets.Prefs();
+		var userFlairs = gadgets.json.parse(gadgets.util.unescapeString(prefs.getString(CUSTOM_FLAIRS)));
+		return userFlairs;
+	}
+
+	function setCustomFlairs(flairs)
+	{
+		var prefs = new gadgets.Prefs();
+		prefs.set(CUSTOM_FLAIRS,gadgets.json.stringify(flairs));
+	}
+
+	function loadUserFlairs()
+	{
+		// test, bootstrap
+		var userFlairs = getCustomFlairs();
+		if(!userFlairs)
+		{
+			console.log("No custom icons, bootstrap with original ones");
+			setCustomFlairs(originalFlairs);
+			userFlairs = originalFlairs;
+		}
+		// retrieve custom flairs definition
+		for(var url in userFlairs)
+		{
+			for(var idx in userFlairs[url])
+			{
+				var icon = userFlairs[url][idx];
+				var img = flairFactory(url + icon);
+				document.getElementById("flairs").appendChild(img);
+			}
+			// re-adjust height accordingly
+			gadgets.window.adjustHeight();
+
+		}
+	}
+
+	function restoreGoogleFlairs()
+	{
+		var r = confirm("This will reset all your icons to the original ones. Are you sure ?");
+		if(r)
+		{
+			// back to original ones
+			setCustomFlairs(originalFlairs);
+			// clear current flairs
+			document.getElementById("flairs").innerHTML = "";
+			loadUserFlairs();
+		}
+	}
+
+	function resetUserFlairs()
+	{
+		var r = confirm("This will remove all your icons... Are you sure ?");
+		if(r)
+		{
+			// back to original ones
+			setCustomFlairs({});
+			// clear current flairs
+			document.getElementById("flairs").innerHTML = "";
+			loadUserFlairs();
+		}
+	}
+
+	function splitRootIcon(url)
+	{
+		var surl = url.split("/");
+		var icon = surl[surl.length-1];
+		var root = url.replace(icon,"");
+		return {'root' : root, 'icon' : icon};
+	}
+
+	function addCustomFlair(url)
+	{
+		// then store to user pref
+		// -> extract roo url and check if it exists
+		var res = splitRootIcon(url);
+		var icon = res.icon;
+		var root = res.root;
+		var userFlairs = getCustomFlairs();
+		if(root in userFlairs)
+		{
+			userFlairs[root].push(icon);
+		}
+		else
+		{
+			userFlairs[root] = [icon];
+		}
+
+		// add images
+		var img = flairFactory(url);	
+		document.getElementById("flairs").appendChild(img);
+
+		setCustomFlairs(userFlairs);
+		// adjust in case we add another row
+		gadgets.window.adjustHeight();
+	}
+
+	function promptCustomFlair()
+	{
+		var url = prompt("Paste an image URL here: ","");
+		if (url!=null && url!="")
+			addCustomFlair(url);
+	}
+
+	function removeCustomFlair(url)
+	{
+		var res = splitRootIcon(url);
+		var flairs = getCustomFlairs();
+		if(res.root in flairs)
+		{
+			flairs[res.root].splice(flairs[res.root].indexOf(res.icon),1);
+
+			// need to delete root ?
+			if(!flairs[res.root].length)
+				delete flairs[res.root];
+
+			setCustomFlairs(flairs);
+		}
+		else
+		{
+			console.log("Removing " + url + " but not in custom flairs, this is weird !");
+		}
+
+	}
+
+	function toggleDeleteFlair()
+	{
+		if(delete_mode)
+		{
+			document.getElementById("delete").style.backgroundColor = "transparent";
+			delete_mode = false;
+		}
+		else
+		{
+			document.getElementById("delete").style.backgroundColor = "lightgrey";
+			delete_mode = true;
+		}
+		console.log("Will delete icon ? ",delete_mode);
+	}
 	
 	function subscribeEventsCallback(e)
 	{
@@ -60,8 +222,19 @@
 		);
 	}
 
-	function setIcon(url)
+	function setIcon(elem)
 	{
+		var url = null;
+		if(elem)
+			url = elem.src;
+
+		if(delete_mode)
+		{
+			removeCustomFlair(url);
+			elem.remove();
+			return;
+		}
+
 		// from global var
 		var dreq = {'calendarId':currentEvent['cid'], 'eventId':currentEvent['eid']};
 		var allRecurringEvents = document.getElementById('recur').checked;
@@ -107,6 +280,8 @@
 	;
 	function handleClientLoad() {
 		window.setTimeout(checkAuth,1);
+		window.setTimeout(function(){gadgets.window.adjustHeight();},1);
+		window.setTimeout(loadUserFlairs,1);
 	}
 
 	function checkAuth() {
@@ -116,7 +291,8 @@
 	function handleAuthResult(authResult) {
 		var authorizeButton = document.getElementById('authorize-button');
 		if (authResult && !authResult.error) {
-			authorizeButton.style.visibility = 'hidden';
+			//authorizeButton.style.visibility = 'hidden';
+			authorizeButton.remove();
 			makeApiCall();
 		} else {
 			authorizeButton.style.visibility = '';
@@ -137,50 +313,13 @@
 		});
 	}
 
+
 </script>
 <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-
 <div id="out">
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/cake.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/fork.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/martini.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/gift.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/heart.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/happy.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sad.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/angry.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/home.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/work.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/car.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/plane.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/bike.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/bill.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/doctor.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/skull.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_football.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_baseball.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_basketball.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_hockey.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_golf.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_tennis.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_soccer.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/sport_rugby.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/4.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/3.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/2.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/1.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/5.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/6.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/tv.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/book.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/9.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/10.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/11.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/12.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/8.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/7.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/phone.png"> 
-<img width="16" height="16" title="Add icon to event" style="cursor:pointer" onclick="setIcon(this.src)" src="//www.google.com/googlecalendar/icons/vacation.png"> 
+
+<span id="flairs">
+</span>
 
 
 <center>
@@ -194,10 +333,26 @@
 </center>
 </div>
 
-<div style="font-size:0.6em;color:grey;">
-<div style="float:left;width:50%;text-align:left;"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">About</a></div>
-<div style="text-align:right">v2.0f</div>
+<div style="font-size:0.6em;color:grey;padding-top:5px;">
+	<div style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="promptCustomFlair()">
+  		<img src="https://eventflairs.appspot.com/static/images/add.gif" width="12" height="12">
+	</div>
+
+	<div id="delete" style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="toggleDeleteFlair()">
+  		<img src="https://eventflairs.appspot.com/static/images/delete.gif" width="12" height="12">
+	</div>
+
+	<div style="float:left;width:30%;text-align:right;padding:2px;cursor:pointer;" onclick="resetUserFlairs()">
+		<img src="https://eventflairs.appspot.com/static/images/clear.png" width="12" height="12">
+	</div>
+
+	<div style="float:left;width:10%;text-align:right;padding:2px;cursor:pointer;" onclick="restoreGoogleFlairs()">
+		<img src="https://eventflairs.appspot.com/static/images/google.png" width="12" height="12">
+	</div>
+
+	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1a</a></div>
 </div>
+
 
 
 </body>
