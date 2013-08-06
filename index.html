@@ -16,6 +16,8 @@
 		<script src="js/config.js"></script>
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-panels.min.js"></script>
+		<script src="js/ZeroClipboard.min.js"></script>
+		<script src="js/sets.js"></script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel-noscript.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -42,6 +44,7 @@
 											<ul>
 												<li class="current_page_item"><a href="#">Home</a></li>
 												<li><a href="#install">Install</a></li>
+												<li><a href="#custom">Custom Flairs</a></li>
 												<li><a href="#support">Support</a></li>
 												<li><a href="#contrib">Contribute</a></li>
 											</ul>
@@ -103,9 +106,24 @@
 													<li>"This is not what I see, this is not what I get, something is wrong, help !". Join Event Flairs <a href="https://groups.google.com/forum/#!forum/event-flairs">group</a> and explain what's going on !</li>
 													</ol>
 													</p>
+
+													<header>
+														<h3 id="custom">Import a custom flairs set !</h3>
+													</header>
+													<p>
+													Custom flairs sets are user-defined set of icons you can use to enrich gadget. Simply select the one you want to use, click on "Copy", go back to your gadget and click on "Import" button. Paste the set description and that's it !
+													</p>
+													<p>
+													<div id="sets" class="row">
+													</div>
+													</p>
+
+
 												</section>
 											</div>
 										</div>
+
+
 										<div class="row">
 											<div class="6u">
 												<section class="box" id="support">
@@ -226,6 +244,77 @@
 	  ga('create', 'UA-42714430-1', 'eventflairs.appspot.com');
 	  ga('send', 'pageview');
 	</script>
+					<script>
+					var FLAIRS_PER_ROW = 8;
+					for(var idx in sets)
+					{
+						var set = sets[idx];
+						var id = set['name'].replace(" ","");
+						var div3u = document.createElement("div");
+						div3u.setAttribute("style","text-align:center;");
+						div3u.setAttribute("class","3u");
+
+						var h4 = document.createElement("h4");
+						h4.textContent = set['name'];
+						div3u.appendChild(h4);
+
+						var diva = document.createElement("div");
+						diva.innerHTML = "Author: " + set['author'];
+						div3u.appendChild(diva);
+
+						var divd = document.createElement("div");
+						divd.innerHTML = set['description'];
+						div3u.appendChild(divd);
+
+						var but = document.createElement("button");
+						but.setAttribute("id",id + '-button');
+						but.setAttribute("data-clipboard-text",JSON.stringify(set['def']));
+						but.textContent = "Copy flairs set !";
+						if(set['def'])
+							div3u.appendChild(but);
+
+						var divn = document.createElement("div");
+						divn.setAttribute("id",id + '-button-next');
+						divn.setAttribute("style","display:none;text-align:center;background:darkblue;color:white;font-size:0.8em;");
+						divn.textContent = 'Go back to gadget, click "import" and paste';
+						div3u.appendChild(divn);
+
+						var divf = document.createElement("div");
+						divf.setAttribute("id",id + '-flairs');
+						div3u.appendChild(divf);
+
+						var scr = document.createElement("script");
+						scr.textContent = 'var clip = new ZeroClipboard( document.getElementById("' + id + '-button' + '"), { ' +
+							'    moviePath: "/js/ZeroClipboard.swf" ' +
+							' } ); ' +
+							' clip.on( "complete", function(client, args) { ' + 
+							'   this.style.display = "none"; ' +
+							'   document.getElementById(this.id + "-next").style.display = "block"; ' +
+							' } ); ';
+						div3u.appendChild(scr);
+						
+						document.getElementById("sets").appendChild(div3u);
+
+						var cnt = 0;
+						for(var root in set['def'])
+						{
+							for(var idx in set['def'][root])
+							{
+								var img = document.createElement("img");
+								img.setAttribute("src",root + set['def'][root][idx]);
+								img.setAttribute("height",16);
+								img.setAttribute("width",16);
+								if(!(cnt%FLAIRS_PER_ROW))
+								{
+									var br = document.createElement("br");
+									document.getElementById(id + '-flairs').appendChild(br);
+								}
+								document.getElementById(id + '-flairs').appendChild(img);
+								cnt++;
+							}
+						}
+					}
+					</script>
 
 	</body>
 </html>
