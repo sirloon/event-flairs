@@ -179,6 +179,18 @@
 		}
 		console.log("Will delete icon ? ",delete_mode);
 	}
+
+	function importFlairSet()
+	{
+		var strjson = prompt("Paste a flair set description: ","");
+		if (strjson!=null && strjson!="")
+		{	
+			var json = gadgets.json.parse(gadgets.util.unescapeString(strjson));
+			resetUserFlairs();
+			setCustomFlairs(json);
+			loadUserFlairs();
+		}
+	}
 	
 	function subscribeEventsCallback(e)
 	{
@@ -343,7 +355,11 @@
   		<img src="https://eventflairs.appspot.com/static/images/delete.gif" width="12" height="12">
 	</div>
 
-	<div style="float:left;width:30%;text-align:right;padding:2px;cursor:pointer;" onclick="resetUserFlairs()">
+	<div style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="importFlairSet()">
+  		<img src="https://eventflairs.appspot.com/static/images/import.gif" width="12" height="12">
+	</div>
+
+	<div style="float:left;width:20%;text-align:right;padding:2px;cursor:pointer;" onclick="resetUserFlairs()">
 		<img src="https://eventflairs.appspot.com/static/images/clear.gif" width="12" height="12">
 	</div>
 
