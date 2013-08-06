@@ -293,6 +293,7 @@
 		if (authResult && !authResult.error) {
 			//authorizeButton.style.visibility = 'hidden';
 			authorizeButton.remove();
+			gadgets.window.adjustHeight();
 			makeApiCall();
 		} else {
 			authorizeButton.style.visibility = '';
