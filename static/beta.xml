@@ -191,6 +191,12 @@
 			loadUserFlairs();
 		}
 	}
+
+	function exportFlairSet()
+	{
+		var flairs = getCustomFlairs();
+		var strjson = prompt("Copy the selected text, this is your event flairs set !",gadgets.json.stringify(flairs));
+	}
 	
 	function subscribeEventsCallback(e)
 	{
@@ -236,9 +242,8 @@
 
 	function setIcon(elem)
 	{
-		var url = null;
-		if(elem)
-			url = elem.src;
+
+		var url = elem.src;
 
 		if(delete_mode)
 		{
@@ -305,7 +310,6 @@
 		if (authResult && !authResult.error) {
 			//authorizeButton.style.visibility = 'hidden';
 			authorizeButton.remove();
-			gadgets.window.adjustHeight();
 			makeApiCall();
 		} else {
 			authorizeButton.style.visibility = '';
@@ -359,7 +363,11 @@
   		<img src="https://eventflairs.appspot.com/static/images/import.gif" width="12" height="12">
 	</div>
 
-	<div style="float:left;width:20%;text-align:right;padding:2px;cursor:pointer;" onclick="resetUserFlairs()">
+	<div style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="exportFlairSet()">
+  		<img src="https://eventflairs.appspot.com/static/images/export.png" width="12" height="12">
+	</div>
+
+	<div style="float:left;width:10%;text-align:right;padding:2px;cursor:pointer;" onclick="resetUserFlairs()">
 		<img src="https://eventflairs.appspot.com/static/images/clear.gif" width="12" height="12">
 	</div>
 
@@ -367,7 +375,7 @@
 		<img src="https://eventflairs.appspot.com/static/images/google.png" width="12" height="12">
 	</div>
 
-	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1c</a></div>
+	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1d</a></div>
 </div>
 
 
