@@ -206,8 +206,9 @@
 
 	function setIcon(elem)
 	{
-
-		var url = elem.src;
+		var url = null;
+		if(elem)
+			url = elem.src;
 
 		if(delete_mode)
 		{
@@ -227,7 +228,7 @@
 			{
 				gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, function(res){
 					console.log("auth token refreshed ",res);
-					setIcon(url);
+					setIcon(elem);
 				});
 				return;
 			}
@@ -340,7 +341,7 @@
 		<img src="https://eventflairs.appspot.com/static/images/google.png" width="12" height="12">
 	</div>
 
-	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1e</a></div>
+	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1f</a></div>
 </div>
 
 

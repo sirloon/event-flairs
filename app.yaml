@@ -19,10 +19,19 @@ handlers:
 
 - url: /static
   static_dir: static
+
+- url: /choose
+  static_files: choose.html
+  upload: choose\.html
  
 - url: /.*
   static_files: index.html
   upload: index\.html
+
+skip_files:
+- static/images/flairs/fatcow/.*\.png
+- static/images/flairs/iconic/.*\.png
+
 
 libraries:
 - name: webapp2
