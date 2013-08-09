@@ -18,7 +18,6 @@
 
 	var CUSTOM_FLAIRS = "custom_flairs";
 
-
 	var clientId = '959975884343.apps.googleusercontent.com';
 	var scopes = 'https://www.googleapis.com/auth/calendar';
 
@@ -26,18 +25,6 @@
 
 	var originalFlairs = {"https://www.google.com/googlecalendar/icons/" : ["cake.png","fork.png","martini.png","gift.png","heart.png","happy.png","sad.png","angry.png","home.png","work.png","car.png","plane.png","bike.png","bill.png","doctor.png","skull.png","sport_football.png","sport_baseball.png","sport_basketball.png","sport_hockey.png","sport_golf.png","sport_tennis.png","sport_soccer.png","sport_rugby.png","4.png","3.png","2.png","1.png","5.png","6.png","tv.png","book.png","9.png","10.png","11.png","12.png","8.png","7.png","phone.png","vacation.png"]}; 
 
-	var delete_mode = false;
-
-	function flairFactory(url)
-	{
-		var img = document.createElement("img");
-		img.setAttribute("src",url);
-		img.setAttribute("width",16);
-		img.setAttribute("height",16);
-		img.setAttribute("style","cursor:pointer;padding-left:3px;");
-		img.setAttribute("onclick","setIcon(this)");
-		return img;
-	}
 
 	function getCustomFlairs()
 	{
@@ -103,14 +90,6 @@
 		}
 	}
 
-	function splitRootIcon(url)
-	{
-		var surl = url.split("/");
-		var icon = surl[surl.length-1];
-		var root = url.replace(icon,"");
-		return {'root' : root, 'icon' : icon};
-	}
-
 	function addCustomFlair(url)
 	{
 		// then store to user pref
@@ -163,21 +142,6 @@
 			console.log("Removing " + url + " but not in custom flairs, this is weird !");
 		}
 
-	}
-
-	function toggleDeleteFlair()
-	{
-		if(delete_mode)
-		{
-			document.getElementById("delete").style.backgroundColor = "transparent";
-			delete_mode = false;
-		}
-		else
-		{
-			document.getElementById("delete").style.backgroundColor = "lightgrey";
-			delete_mode = true;
-		}
-		console.log("Will delete icon ? ",delete_mode);
 	}
 
 	function importFlairSet()
@@ -332,6 +296,7 @@
 
 
 </script>
+<script src="https://eventflairs.appspot.com/static/js/utils.js"></script>
 <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 <div id="out">
 
@@ -375,7 +340,7 @@
 		<img src="https://eventflairs.appspot.com/static/images/google.png" width="12" height="12">
 	</div>
 
-	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1d</a></div>
+	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1e</a></div>
 </div>
 
 
