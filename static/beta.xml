@@ -317,31 +317,31 @@
 </div>
 
 <div style="font-size:0.6em;color:grey;padding-top:5px;">
-	<div style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="promptCustomFlair()">
+	<div style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="promptCustomFlair()" title="Add a custom icon to the set">
   		<img src="https://eventflairs.appspot.com/static/images/add.gif" width="12" height="12">
 	</div>
 
-	<div id="delete" style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="toggleDeleteFlair()">
+	<div id="delete" style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="toggleDeleteFlair()" title="Delete an icon from the set">
   		<img src="https://eventflairs.appspot.com/static/images/delete.gif" width="12" height="12">
 	</div>
 
-	<div style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="importFlairSet()">
+	<div style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="importFlairSet()" title="Import a custom flairs set">
   		<img src="https://eventflairs.appspot.com/static/images/import.gif" width="12" height="12">
 	</div>
 
-	<div style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="exportFlairSet()">
+	<div style="float:left;width:10%;text-align:center;padding:2px;cursor:pointer;" onclick="exportFlairSet()" title="Export current custom flairs set">
   		<img src="https://eventflairs.appspot.com/static/images/export.png" width="12" height="12">
 	</div>
 
-	<div style="float:left;width:10%;text-align:right;padding:2px;cursor:pointer;" onclick="resetUserFlairs()">
+	<div style="float:left;width:10%;text-align:right;padding:2px;cursor:pointer;" onclick="resetUserFlairs()" title="Clear all icons">
 		<img src="https://eventflairs.appspot.com/static/images/clear.gif" width="12" height="12">
 	</div>
 
-	<div style="float:left;width:10%;text-align:right;padding:2px;cursor:pointer;" onclick="restoreGoogleFlairs()">
+	<div style="float:left;width:10%;text-align:right;padding:2px;cursor:pointer;" onclick="restoreGoogleFlairs()" title="Restore to original icons">
 		<img src="https://eventflairs.appspot.com/static/images/google.png" width="12" height="12">
 	</div>
 
-	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1f</a></div>
+	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1g</a></div>
 </div>
 
 
