@@ -1,3 +1,21 @@
+event-flairs-2.1
+----------------
+
+Released 2013-08-10
+GAE version: 7
+
+ - fixed auth token refresh, no need to refresh/F5 the calendar 
+   anymore, was needed after 1h.
+ - several buttons:
+   * add a custom flair by URL
+   * delete some flairs from the current set
+   * import a flairs set definition
+   * export current flairs set
+   * clear/reset all flairs
+   * restore back to Google's original ones 
+ - Dynamic height
+ - Website: copy pre-defined custom flairs to import in gadget
+
 event-flairs-2.0
 ----------------
 
