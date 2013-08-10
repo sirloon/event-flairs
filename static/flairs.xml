@@ -263,7 +263,7 @@
 	function handleClientLoad() {
 		window.setTimeout(checkAuth,1);
 		window.setTimeout(function(){gadgets.window.adjustHeight();},1);
-		window.setTimeout(loadUserFlairs,1);
+		window.setTimeout(loadUserFlairs,2);
 	}
 
 	function checkAuth() {
