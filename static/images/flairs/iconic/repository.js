@@ -1,6 +1,6 @@
 var REPOSITORY = {
   'name' : 'Iconic',
-  'url' : 'http://somerandomdude.com/work/iconic/'
+  'url' : 'http://somerandomdude.com/work/iconic/',
   'categories' : [
     {'Black' : [
     	'https://event-flairs.googlecode.com/git/static/images/flairs/iconic/black/aperture_16x16.png',
@@ -910,7 +910,7 @@ var REPOSITORY = {
     	'https://event-flairs.googlecode.com/git/static/images/flairs/iconic/magenta/wrench_16x16.png',
     	'https://event-flairs.googlecode.com/git/static/images/flairs/iconic/magenta/x_alt_16x16.png'
 	]
-    }
+    },
     {"Orange" : [
     	'https://event-flairs.googlecode.com/git/static/images/flairs/iconic/orange/aperture_16x16.png',
     	'https://event-flairs.googlecode.com/git/static/images/flairs/iconic/orange/aperture_alt_16x16.png',
@@ -1316,4 +1316,4 @@ var REPOSITORY = {
 	]
     }
   ]
-}
+};

@@ -1,8 +1,8 @@
 var REPOSITORY = {
-  'name' : 'Fatcow icons',
+  'name' : 'Fatcow',
   'url' : 'http://www.fatcow.com/free-icons',
   'categories' : [
-    {'main' : [
+    {'Main' : [
         'https://event-flairs.googlecode.com/git/static/images/flairs/fatcow/32_bit.png',
         'https://event-flairs.googlecode.com/git/static/images/flairs/fatcow/3d_glasses.png',
         'https://event-flairs.googlecode.com/git/static/images/flairs/fatcow/64_bit.png',

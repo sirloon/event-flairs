@@ -184,7 +184,7 @@
 		for(var idx in MASTER)
 		{
 			var repo = MASTER[idx];
-			$("#repos").append("<ul class='repo' onclick='loadRepository(" + idx + ")'>" + repo['name'] + "</u>");
+			$("#repos").append("<li class='repo' onclick='loadRepository(" + idx + ")'>" + repo['name'] + "</li>");
 		}
 	}
 
