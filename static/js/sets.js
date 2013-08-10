@@ -15,11 +15,6 @@ var sets = [
 	 'description' : 'Minimalistic icon set, using <a href="http://somerandomdude.com/work/iconic/">Iconic</a> collection',
 	 'def' : {"https://event-flairs.googlecode.com/git/static/images/flairs/iconic/magenta/":["stop_16x16.png","cd_16x16.png","brush_16x16.png","pen_alt2_16x16.png","arrow_left_16x16.png","arrow_right_16x16.png","arrow_up_16x16.png","arrow_down_16x16.png","bars_16x16.png","at_16x16.png","bolt_16x16.png","camera_16x16.png","check_alt_16x16.png","clock_16x16.png","cog_16x16.png","folder_fill_16x16.png","home_16x16.png","image_16x16.png","key_fill_16x16.png","key_stroke_16x16.png","magnifying_glass_16x16.png","move_alt2_16x16.png","move_horizontal_alt2_16x16.png","pin_16x16.png","play_alt_16x16.png","rss_16x16.png","star_16x16.png","aperture_16x16.png","tag_fill_16x16.png","tag_stroke_16x16.png","umbrella_16x16.png","x_alt_16x16.png"]}
 	},
-	{'name' : 'Minimalistic Gray flairs',
-	 'author' : 'Seb',
-	 'description' : 'Minimalistic icon set, using <a href="http://somerandomdude.com/work/iconic/">Iconic</a> collection',
-	 'def' : {"https://event-flairs.googlecode.com/git/static/images/flairs/iconic/gray_ligh/":["stop_16x16.png","cd_16x16.png","brush_16x16.png","pen_alt2_16x16.png","arrow_left_16x16.png","arrow_right_16x16.png","arrow_up_16x16.png","arrow_down_16x16.png","bars_16x16.png","at_16x16.png","bolt_16x16.png","camera_16x16.png","check_alt_16x16.png","clock_16x16.png","cog_16x16.png","folder_fill_16x16.png","home_16x16.png","image_16x16.png","key_fill_16x16.png","key_stroke_16x16.png","magnifying_glass_16x16.png","move_alt2_16x16.png","move_horizontal_alt2_16x16.png","pin_16x16.png","play_alt_16x16.png","rss_16x16.png","star_16x16.png","aperture_16x16.png","tag_fill_16x16.png","tag_stroke_16x16.png","umbrella_16x16.png","x_alt_16x16.png"]}
-	},
 	{'name' : 'More to come!',
 	 'author' : 'You',
 	 'description' : '<a href="https://groups.google.com/forum/#!forum/event-flairs">Join</a> the group and share your favorite flairs set',
