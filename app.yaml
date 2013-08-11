@@ -31,6 +31,7 @@ handlers:
 skip_files:
 - static/images/flairs/fatcow/.*\.png
 - static/images/flairs/iconic/.*\.png
+- static/images/flairs/glyphicons/.*\.png
 
 
 libraries:

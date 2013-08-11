@@ -10,3 +10,28 @@ img.icon {
   width: 16px;
 }
 
+#cart
+{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 50;
+  width: 156px;
+  min-height: 100px;
+  height: auto;
+  background: white;
+  border: solid thin black;
+}
+
+.cart-title
+{
+  text-align: center;
+}
+
+img.custom_icon
+{
+  margin-left: 3px;
+  width: 16px;
+  height: 16px;
+  cursor: crosshair;
+}

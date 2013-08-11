@@ -13,7 +13,7 @@ var sets = [
 	{'name' : 'Minimalistic B&W flairs',
 	 'author' : 'Seb',
 	 'description' : 'Minimalistic icon set, using <a href="http://somerandomdude.com/work/iconic/">Iconic</a> collection',
-	 'def' : {"https://event-flairs.googlecode.com/git/static/images/flairs/iconic/black/":["stop_16x16.png","cd_16x16.png","brush_16x16.png","pen_alt2_16x16.png","arrow_left_16x16.png","arrow_right_16x16.png","arrow_up_16x16.png","arrow_down_16x16.png","bars_16x16.png","at_16x16.png","bolt_16x16.png","camera_16x16.png","check_alt_16x16.png","clock_16x16.png","cog_16x16.png","folder_fill_16x16.png","home_16x16.png","image_16x16.png","key_fill_16x16.png","key_stroke_16x16.png","magnifying_glass_16x16.png","move_alt2_16x16.png","move_horizontal_alt2_16x16.png","pin_16x16.png","play_alt_16x16.png","rss_16x16.png","star_16x16.png","aperture_16x16.png","tag_fill_16x16.png","tag_stroke_16x16.png","umbrella_16x16.png","x_alt_16x16.png"]}
+	 'def' : {"https://event-flairs.googlecode.com/git/static/images/flairs/iconic/":["black_stop.png","black_cd.png","black_brush.png","black_pen_alt2.png","black_arrow_left.png","black_arrow_right.png","black_arrow_up.png","black_arrow_down.png","black_bars.png","black_at.png","black_bolt.png","black_camera.png","black_check_alt.png","black_clock.png","black_cog.png","black_folder_fill.png","black_home.png","black_image.png","black_key_fill.png","black_key_stroke.png","black_magnifying_glass.png","black_move_alt2.png","black_move_horizontal_alt2.png","black_pin.png","black_play_alt.png","black_rss.png","black_star.png","black_aperture.png","black_tag_fill.png","black_tag_stroke.png","black_umbrella.png","black_x_alt.png"]}
 	},
 	{'name' : 'More to come!',
 	 'author' : 'You',
