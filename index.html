@@ -23,6 +23,7 @@
       <link rel="stylesheet" href="css/style.css" />
       <link rel="stylesheet" href="css/style-desktop.css" />
     </noscript>
+    <link rel="stylesheet" href="css/index.css" />
     <!--[if lte IE 8]><script src="js/html5shiv.js"></script><link rel="stylesheet" href="static/css/ie8.css" /><![endif]-->
   </head>
   <body class="homepage">
@@ -319,6 +320,7 @@
                 img.setAttribute("src",root + set['def'][root][idx]);
                 img.setAttribute("height",16);
                 img.setAttribute("width",16);
+		img.setAttribute("class","icon");
                 if(!(cnt%FLAIRS_PER_ROW))
                 {
                   var br = document.createElement("br");
