@@ -31,10 +31,12 @@
   </head>
   <body class="homepage">
     <div id="cart">
-      <h5 class="cart-title">Custom Flairs Sets</h5>
-      <button id="flairs-button" data-clipboard-text="" class="">Copy flairs set !</button>
-      <div id="custom_icons">
+      <h5 class="cart-title">Your Custom Flairs Sets</h5>
+      <div style="text-align:center">
+        <button id="flairs-button" data-clipboard-text="" class="">Copy flairs set !</button>
+        <div id="flairs-button-next" style="display: none; text-align: center; background-color: rgb(0, 0, 139); color: white; font-size: 0.8em; background-position: initial initial; background-repeat: initial initial;">Go back to gadget, click "import" and paste</div>
       </div>
+      <div id="custom-icons"></div>
     </div>
     <!-- Header Wrapper -->
       <div id="header-wrapper">
@@ -47,6 +49,7 @@
                   
                   <!-- Logo -->
                     <h1><a href="/">Event Flairs</a></h1>
+		    <h3 style="padding-bottom:15px">Build your own flairs set</h3>
                   
                   <!-- Nav -->
                     <nav id="nav">
@@ -62,7 +65,7 @@
       </div>
     
     <!-- Main Wrapper -->
-      <div id="main-wrapper">
+      <div id="choose-wrapper">
         <div class="container">
           <div class="row">
             <div class="12u">
@@ -77,7 +80,8 @@
                             <h3 id="repo_name"></h3>
                           </header>
                           <p id="repo_icons">
-                          Select an icon collection
+                          Select an icon collection. Once loaded, just click on the icons you want, your custom flairs set will get filled. When ready, just click on the "Copy flairs set" button, and import <img src="/static/images/import.gif"> button on gadget's toobar.<br><br>
+			  You can suggest a new icon collection and have it displayed here ! Just <a href="https://groups.google.com/forum/#!forum/event-flairs">join</a> the group and post your favorite icon collection. Remember, they must be free use (personal and commercial), should be available in PNG or GIF format, and sized as 16x16.
                           </p>
                         </section>
                       </div>
@@ -195,6 +199,20 @@
       $("#repos").append("<li class='repo' onclick='loadRepository(" + idx + ")'><a>" + repo['name'] + "</a></li>");
     }
   }
+  
+  function removeIcon(elem)
+  {
+    var res = splitRootIcon(elem.src);
+    if(res.root in userFlairs)
+    {
+      userFlairs[res.root].splice(userFlairs[res.root].indexOf(res.icon),1);
+      // need to delete root ?
+      if(!userFlairs[res.root].length)
+        delete userFlairs[res.root];
+      elem.remove();
+      $("#flairs-button").attr("data-clipboard-text",JSON.stringify(userFlairs));
+    }
+  }
 
   function selectIcon(elem)
   {
@@ -215,8 +233,9 @@
     $("#flairs-button").attr("data-clipboard-text",JSON.stringify(userFlairs));
      // add img element
     var img = $("<img src='" + url + "'>");
-    $(img).addClass("custom_icon");
-    $("#custom_icons").append(img);
+    $(img).attr("onclick","removeIcon(this)");
+    $(img).addClass("custom-icon");
+    $("#custom-icons").append(img);
   }
 
   function loadRepository(idx)
@@ -226,6 +245,9 @@
     $("#repo_icons").empty();
     $.getScript(repo['def'],function() {
       $("#repo_name").append(REPOSITORY['name']);
+      var url = REPOSITORY['url'];
+      $("#repo_icons").append("<div><a href='" + url + "'>" + url + "</a></div>");
+      $("#repo_icons").append("<br>");
       for(var catk in REPOSITORY['categories'])
       {
         var dcat = REPOSITORY['categories'][catk];
@@ -253,6 +275,13 @@
         .stop()
         .animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "slow" );      
     });
+  });
+
+  var clip = new ZeroClipboard( document.getElementById("flairs-button"), {
+    moviePath: "/js/ZeroClipboard.swf"
+  });
+  clip.on( "complete", function(client, args) {
+    document.getElementById(this.id + "-next").style.display = "block";
   });
   </script>
 

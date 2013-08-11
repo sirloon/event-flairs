@@ -45,6 +45,7 @@
                         <li class="current_page_item"><a href="#">Home</a></li>
                         <li><a href="#install">Install</a></li>
                         <li><a href="#custom">Custom Flairs</a></li>
+                        <li><a href="choose">My Flairs</a></li>
                         <li><a href="#support">Support</a></li>
                         <li><a href="#contrib">Contribute</a></li>
                         <li>
@@ -124,6 +125,9 @@
                           <p>
                           Custom flairs sets are user-defined set of icons you can use to enrich gadget. Simply select the one you want to use, click on "Copy", go back to your gadget and click on "Import" button <img src="static/images/import.gif">. Paste the set description and that's it !
                           </p>
+			  <p>
+			  <b>NEW</b>: <a href="choose">Choose</a> your favorite icons amongst thousands available and build your own flairs set.
+			  </p>
                           <p>
                           <div id="sets" class="row">
                           </div>
@@ -263,7 +267,7 @@
             var id = set['name'].replace(" ","");
             var div3u = document.createElement("div");
             div3u.setAttribute("style","text-align:center;");
-            div3u.setAttribute("class","3u");
+            div3u.setAttribute("class","2u");
 
             var h4 = document.createElement("h4");
             h4.textContent = set['name'];

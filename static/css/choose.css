@@ -16,7 +16,7 @@ img.icon {
   top: 10px;
   left: 10px;
   z-index: 50;
-  width: 156px;
+  width: 200px;
   min-height: 100px;
   height: auto;
   background: white;
@@ -28,10 +28,25 @@ img.icon {
   text-align: center;
 }
 
-img.custom_icon
+img.custom-icon
 {
   margin-left: 3px;
   width: 16px;
   height: 16px;
   cursor: crosshair;
 }
+
+#custom-icons
+{
+  margin-left:22px;
+  margin-top:10px;
+  width: 156px;
+}
+
+#choose-wrapper
+{
+  padding: 1em 0 1em 0;
+  position: relative;
+  background: #f7f7f7 url('images/bg02.png');
+}
+
