@@ -1,3 +1,13 @@
+event-flairs-2.2
+----------------
+
+Released 2013-08-12
+GAE version: 8
+
+ - fixed illegal DOM operation under Firefox
+ - migrate to full jquery API
+
+
 event-flairs-2.1
 ----------------
 
@@ -15,6 +25,7 @@ GAE version: 7
    * restore back to Google's original ones 
  - Dynamic height
  - Website: copy pre-defined custom flairs to import in gadget
+
 
 event-flairs-2.0
 ----------------

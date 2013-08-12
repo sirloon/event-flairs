@@ -56,7 +56,7 @@
 			{
 				var icon = userFlairs[url][idx];
 				var img = flairFactory(url + icon);
-				document.getElementById("flairs").appendChild(img);
+				$("#flairs").append(img);
 			}
 			// re-adjust height accordingly
 			gadgets.window.adjustHeight();
@@ -72,7 +72,7 @@
 			// back to original ones
 			setCustomFlairs(originalFlairs);
 			// clear current flairs
-			document.getElementById("flairs").innerHTML = "";
+			$("#flairs").empty();
 			loadUserFlairs();
 		}
 	}
@@ -85,7 +85,7 @@
 			// back to original ones
 			setCustomFlairs({});
 			// clear current flairs
-			document.getElementById("flairs").innerHTML = "";
+			$("#flairs").empty();
 			loadUserFlairs();
 		}
 	}
@@ -109,7 +109,7 @@
 
 		// add images
 		var img = flairFactory(url);	
-		document.getElementById("flairs").appendChild(img);
+		$("#flairs").append(img);
 
 		setCustomFlairs(userFlairs);
 		// adjust in case we add another row
@@ -213,13 +213,13 @@
 		if(delete_mode)
 		{
 			removeCustomFlair(url);
-			elem.remove();
+			$(elem).remove();
 			return;
 		}
 
 		// from global var
 		var dreq = {'calendarId':currentEvent['cid'], 'eventId':currentEvent['eid']};
-		var allRecurringEvents = document.getElementById('recur').checked;
+		var allRecurringEvents = $('#recur').prop("checked");
 		var request = gapi.client.calendar.events.get(dreq);
 		request.execute(function(evt){
 			console.log(evt);
@@ -263,7 +263,7 @@
 	function handleClientLoad() {
 		window.setTimeout(checkAuth,1);
 		window.setTimeout(function(){gadgets.window.adjustHeight();},1);
-		window.setTimeout(loadUserFlairs,2);
+		window.setTimeout(loadUserFlairs,1);
 	}
 
 	function checkAuth() {
@@ -271,10 +271,9 @@
 	}
 
 	function handleAuthResult(authResult) {
-		var authorizeButton = document.getElementById('authorize-button');
+		var authorizeButton = $('#authorize-button');
 		if (authResult && !authResult.error) {
-			//authorizeButton.style.visibility = 'hidden';
-			authorizeButton.remove();
+			$(authorizeButton).remove();
 			makeApiCall();
 		} else {
 			authorizeButton.style.visibility = '';
@@ -297,6 +296,7 @@
 
 
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://eventflairs.appspot.com/static/js/utils.js"></script>
 <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 <div id="out">
@@ -341,7 +341,7 @@
 		<img src="https://eventflairs.appspot.com/static/images/google.png" width="12" height="12">
 	</div>
 
-	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.1</a></div>
+	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.2</a></div>
 </div>
 
 
