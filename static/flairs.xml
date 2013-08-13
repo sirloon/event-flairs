@@ -276,8 +276,8 @@
 			$(authorizeButton).remove();
 			makeApiCall();
 		} else {
-			authorizeButton.style.visibility = '';
-			authorizeButton.onclick = handleAuthClick;
+			$(authorizeButton).css("visibility","");
+			$(authorizeButton).click(handleAuthClick);
 		}
 	}
 	
@@ -341,7 +341,7 @@
 		<img src="https://eventflairs.appspot.com/static/images/google.png" width="12" height="12">
 	</div>
 
-	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.2</a></div>
+	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.21</a></div>
 </div>
 
 
