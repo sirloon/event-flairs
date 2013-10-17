@@ -2,7 +2,7 @@ application: eventflairs
 version: 9
 runtime: python27
 api_version: 1
-threadsafe: yes
+threadsafe: no
 
 handlers:  
 - url: /js
@@ -23,6 +23,9 @@ handlers:
 - url: /choose
   static_files: choose.html
   upload: choose\.html
+
+- url: /shorturl
+  script: shorturl.py
  
 - url: /.*
   static_files: index.html
