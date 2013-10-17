@@ -19,12 +19,13 @@
 	var CUSTOM_FLAIRS = "custom_flairs";
 
 	var clientId = '959975884343.apps.googleusercontent.com';
-	var scopes = 'https://www.googleapis.com/auth/calendar';
+	//var scopes = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/urlshortener'];
+	var scopes = ['https://www.googleapis.com/auth/calendar'];
+	var apiKey = 'AIzaSyBVdKx872jrWl3OziYIJ2TxphByEZG3T2Q';
 
 	var currentEvent = {'cid' : null, 'eid' : null};
 
 	var originalFlairs = {"https://www.google.com/googlecalendar/icons/" : ["cake.png","fork.png","martini.png","gift.png","heart.png","happy.png","sad.png","angry.png","home.png","work.png","car.png","plane.png","bike.png","bill.png","doctor.png","skull.png","sport_football.png","sport_baseball.png","sport_basketball.png","sport_hockey.png","sport_golf.png","sport_tennis.png","sport_soccer.png","sport_rugby.png","4.png","3.png","2.png","1.png","5.png","6.png","tv.png","book.png","9.png","10.png","11.png","12.png","8.png","7.png","phone.png","vacation.png"]}; 
-
 
 	function getCustomFlairs()
 	{
@@ -36,6 +37,9 @@
 	function setCustomFlairs(flairs)
 	{
 		var prefs = new gadgets.Prefs();
+		var str = gadgets.json.stringify(flairs);
+		if(str.length > 1024)
+		    alert("You've reached max size of flairs set,\ntry to remove some icons or\nyour set won't be saved correctly");
 		prefs.set(CUSTOM_FLAIRS,gadgets.json.stringify(flairs));
 	}
 
@@ -90,30 +94,63 @@
 		}
 	}
 
+
 	function addCustomFlair(url)
 	{
-		// then store to user pref
-		// -> extract roo url and check if it exists
-		var res = splitRootIcon(url);
-		var icon = res.icon;
-		var root = res.root;
-		var userFlairs = getCustomFlairs();
-		if(root in userFlairs)
+
+		function dofunc(url)
 		{
-			userFlairs[root].push(icon);
+		    url = url.trim();
+		    // TODO: check https
+		    if(!url.match("^https://"))
+		    {
+		        alert("Your image URL must start with 'https://', please check");
+			return;
+		    }
+
+		    // then store to user pref
+		    // -> extract root url and check if it exists
+		    var res = splitRootIcon(url);
+		    var icon = res.icon;
+		    var root = res.root;
+		    var userFlairs = getCustomFlairs();
+		    if(root in userFlairs)
+		    {
+		    	userFlairs[root].push(icon);
+		    }
+		    else
+		    {
+		    	userFlairs[root] = [icon];
+		    }
+
+		    // add images
+		    var img = flairFactory(url);	
+		    $("#flairs").append(img);
+
+		    setCustomFlairs(userFlairs);
+		    // adjust in case we add another row
+		    gadgets.window.adjustHeight();
+		}
+
+		if(url.match("goo.gl") || !$('#shorturl').prop("checked"))
+		{
+		    dofunc(url); // already short
 		}
 		else
 		{
-			userFlairs[root] = [icon];
-		}
-
-		// add images
-		var img = flairFactory(url);	
-		$("#flairs").append(img);
-
-		setCustomFlairs(userFlairs);
-		// adjust in case we add another row
-		gadgets.window.adjustHeight();
+	            // shorten URL
+		    // Use server side script in order to use API key, else it interfers with OAuth2's calendar token
+		    // (meaning gadget would have need access to private short URL, really not needed)
+		    $.ajax({
+		    	"type":"GET",
+			"url":"http://eventflairs.appspot.com/shorturl?service=goo.gl&longurl=" + url,"async":false}
+		    ).done(function(resp){
+		        url = gadgets.json.parse(resp)['short']
+			dofunc(url);
+		    }).fail(function( jqXHR, textStatus ) {
+		        alert("Could not create short URL: " + textStatus );
+		    });
+	        }
 	}
 
 	function promptCustomFlair()
@@ -276,8 +313,8 @@
 			$(authorizeButton).remove();
 			makeApiCall();
 		} else {
-			authorizeButton.style.visibility = '';
-			authorizeButton.onclick = handleAuthClick;
+			$(authorizeButton).css("visibility","");
+			$(authorizeButton).click(handleAuthClick);
 		}
 	}
 	
@@ -291,6 +328,10 @@
 		gapi.client.load("calendar","v3",function(resp)
 		{
 			console.log("Calendar v3 API loaded")
+		});
+		gapi.client.load("urlshortener","v1",function(resp)
+		{
+			console.log("URL shortener v1 API loaded")
 		});
 	}
 
@@ -312,6 +353,10 @@
 	<div>
 		<input id="recur" type="checkbox" checked="">
 		<label for="recur" style="font-size:0.8em"> All events in the series</label>
+	</div>
+	<div>
+		<input id="shorturl" type="checkbox" checked="">
+		<label for="shorturl" style="font-size:0.8em"> Use short URL</label>
 	</div>
 </center>
 </div>
@@ -341,7 +386,7 @@
 		<img src="https://eventflairs.appspot.com/static/images/google.png" width="12" height="12">
 	</div>
 
-	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.2</a></div>
+	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.3f</a></div>
 </div>
 
 
