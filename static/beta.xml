@@ -19,9 +19,7 @@
 	var CUSTOM_FLAIRS = "custom_flairs";
 
 	var clientId = '959975884343.apps.googleusercontent.com';
-	//var scopes = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/urlshortener'];
 	var scopes = ['https://www.googleapis.com/auth/calendar'];
-	var apiKey = 'AIzaSyBVdKx872jrWl3OziYIJ2TxphByEZG3T2Q';
 
 	var currentEvent = {'cid' : null, 'eid' : null};
 
@@ -38,9 +36,11 @@
 	{
 		var prefs = new gadgets.Prefs();
 		var str = gadgets.json.stringify(flairs);
-		if(str.length > 1024)
-		    alert("You've reached max size of flairs set,\ntry to remove some icons or\nyour set won't be saved correctly");
 		prefs.set(CUSTOM_FLAIRS,gadgets.json.stringify(flairs));
+		if(str.length > 1024)
+		{
+		    alert("You've reached max size of flairs set,\ntry to remove some icons or\nyour set won't be saved correctly");
+		}
 	}
 
 	function loadUserFlairs()
@@ -143,7 +143,7 @@
 		    // (meaning gadget would have need access to private short URL, really not needed)
 		    $.ajax({
 		    	"type":"GET",
-			"url":"http://eventflairs.appspot.com/shorturl?service=goo.gl&longurl=" + url,"async":false}
+			"url":"https://eventflairs.appspot.com/shorturl?service=goo.gl&longurl=" + url,"async":false}
 		    ).done(function(resp){
 		        url = gadgets.json.parse(resp)['short']
 			dofunc(url);
