@@ -25,6 +25,11 @@ var sets = [
 	 'description' : 'Amanda flairs, based on <a href="http://www.fatcow.com/free-icons">Fatcow</a> collection',
 	 'def' : {"https://goo.gl/":["rKHNLj","Wv9zi8","87SSjE","hMWNlU","KuNg7s","M2fTuK","dpTDr3","R7ze4S","nSgtYG","VM9m2A","Cr2rGK","W6HoMN","Bo2y4b","25sRfy","q0dvOZ","444C8C","PnqzC9","3gGseP","ZpNsgW","0I6uwd","568Lqk","RTgNzY","aVXvKh","qsAo7f","zXVk9D","MLa4Ct","nXEKGk","ZC5kPt","4OQDqZ","sG92an","2EQ8d2","9XZCoL","uUWHkY","fIE716","7cS20z","Oo93JP","03n0we","4NCRGF","HPHQXu","RKVvvn","kFGuro","8pcqsH","2FV4DB","ATClCU","Gfq1C3","O6aobM","R3YhPq","ymzgOI","UsjE4X","vA99pV","y8Y2el","OEEVLm","9rqBPS","WdyGBV","tSJKao","iscRZK","5U8jF4","QtyVFh","lB5S4I","gWNKD5","X5FlZR","1DP4yC","bcb52J","hOsPn7","42bg49","z1tSN0","XWWSMI","mh5kP2","1hfsVK","j6FyUw","TrAQrl","QeTGbm","sSDydk","FTsptv","HFjctb","5D9yFR","yA5GSN","hGvWEL","NGM6jl","Bmvmco","ofNkFC","3DlGmX","zpg3Px","oM2VLh","2Tyl3W","rdPL1S","wqFlCB","dU0Pfe","3sCYUP","mwWueR","MUZiom","YkWV6U","YXYh4H","vpqa6A","PueEjT","lwwKMg","TmKO0i","KLWKJ4","4WsqnK","oxBe8t","Olcgih","qmLYih","0P7qHE","noX2jO"]}
 	},
+	{'name' : 'Halloween flairs',
+	 'author' : 'Gregory Gambone',
+	 'description' : 'Halloween-themed icons',
+	 'def' : {"https://goo.gl/":["XsVoBa","LhLEUu","rKzCa0","fOztqz","jrcBV2","cROHJH","Mlbc51","d0i7ZZ","bx1Exi","dqVK2i","CGNsX3","JHQ6t6","zJbhm7","vfeqqr","zWWKvT","Cl9NWU","N2cJxS","5WuXnU","WSFe66","zJbSWO","yIqxQz","YHCV6A","gqg5CL","jLG5vP","UFCq6C","cbZAH3","C6yJ4g","DGamtR","Vk2kpl","EFjNfV","g7W7zP","VdXUFW","cnYNvk","9a3gU9","pc6GXt","cLaHWx","hvu2Ih","N73S4s","288Wf9","b7SzYw"]}
+	},
 	{'name' : 'More to come!',
 	 'author' : 'You',
 	 'description' : '<a href="https://groups.google.com/forum/#!forum/event-flairs">Join</a> the group and share your favorite flairs set',
