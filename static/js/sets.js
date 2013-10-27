@@ -29,10 +29,5 @@ var sets = [
 	 'author' : 'Gregory Gambone',
 	 'description' : 'Halloween-themed icons',
 	 'def' : {"https://goo.gl/":["XsVoBa","LhLEUu","rKzCa0","fOztqz","jrcBV2","cROHJH","Mlbc51","d0i7ZZ","bx1Exi","dqVK2i","CGNsX3","JHQ6t6","zJbhm7","vfeqqr","zWWKvT","Cl9NWU","N2cJxS","5WuXnU","WSFe66","zJbSWO","yIqxQz","YHCV6A","gqg5CL","jLG5vP","UFCq6C","cbZAH3","C6yJ4g","DGamtR","Vk2kpl","EFjNfV","g7W7zP","VdXUFW","cnYNvk","9a3gU9","pc6GXt","cLaHWx","hvu2Ih","N73S4s","288Wf9","b7SzYw"]}
-	},
-	{'name' : 'More to come!',
-	 'author' : 'You',
-	 'description' : '<a href="https://groups.google.com/forum/#!forum/event-flairs">Join</a> the group and share your favorite flairs set',
 	}
-
 ];

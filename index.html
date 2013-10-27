@@ -124,10 +124,10 @@
                             <h3 id="custom">Import a custom flairs set !</h3>
                           </header>
                           <p>
-                          Custom flairs sets are user-defined set of icons you can use to enrich gadget. Simply select the one you want to use, click on "Copy", go back to your gadget and click on "Import" button <img src="static/images/import.gif">. Paste the set description and that's it !
+			  <b>NEW</b>: <a href="choose">Choose</a> your favorite icons amongst thousands available and build your own flairs set.
                           </p>
 			  <p>
-			  <b>NEW</b>: <a href="choose">Choose</a> your favorite icons amongst thousands available and build your own flairs set.
+                          Custom flairs sets are user-defined set of icons you can use to enrich gadget. Simply select the one you want to use, click on "Copy", go back to your gadget and click on "Import" button <img src="static/images/import.gif">. Paste the set description and that's it ! Also have a nice one ? <a href="https://groups.google.com/forum/#!forum/event-flairs">Join</a> the group and share!
 			  </p>
                           <p>
                           <div id="sets" class="row">
@@ -261,7 +261,9 @@
     ga('send', 'pageview');
   </script>
           <script>
+	  var SETS_PER_ROW = 6;
           var FLAIRS_PER_ROW = 8;
+	  var setcnt = 0;
           for(var idx in sets)
           {
             var set = sets[idx];
@@ -309,7 +311,13 @@
               ' } ); ';
             div3u.appendChild(scr);
             
+            if(!(setcnt%SETS_PER_ROW))
+            {
+              var br = document.createElement("br");
+              document.getElementById("sets").appendChild(br);
+            }
             document.getElementById("sets").appendChild(div3u);
+	    setcnt++;
 
             var cnt = 0;
             for(var root in set['def'])
