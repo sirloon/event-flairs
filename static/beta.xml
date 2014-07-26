@@ -17,6 +17,7 @@
 <script>
 
 	var CUSTOM_FLAIRS = "custom_flairs";
+    var CHECK_DEFAULT_SERIES = "check_default_series";
 
 	var clientId = '959975884343.apps.googleusercontent.com';
 	var scopes = ['https://www.googleapis.com/auth/calendar'];
@@ -67,6 +68,28 @@
 
 		}
 	}
+
+    function restoreCheckSeries()
+    {
+		var prefs = new gadgets.Prefs();
+	    var check = gadgets.json.parse(gadgets.util.unescapeString(prefs.getString(CHECK_DEFAULT_SERIES)));
+        // false: undefined, not stored in prefs. 1: checked. 0: unchecked. Default in HTML: 1
+        if($.type(check) != "boolean" && check == 0) {
+            $("#recur").prop("checked",false);
+        } else {
+            $("#recur").prop("checked",true);
+        }
+    }
+
+    function saveCheckSeries()
+    {
+        var prefs = new gadgets.Prefs();
+        var check = 1;
+        if(!$("#recur").prop("checked")) {
+            check = 0;
+        }
+        prefs.set(CHECK_DEFAULT_SERIES,gadgets.json.stringify(check));
+    }
 
 	function restoreGoogleFlairs()
 	{
@@ -303,6 +326,7 @@
 		window.setTimeout(checkAuth,1);
 		window.setTimeout(function(){gadgets.window.adjustHeight();},1);
 		window.setTimeout(loadUserFlairs,1);
+		window.setTimeout(restoreCheckSeries,1);
 	}
 
 	function checkAuth() {
@@ -353,7 +377,7 @@
 		<u>Remove current icon</u> 
 	</div>
 	<div>
-		<input id="recur" type="checkbox" checked="">
+		<input id="recur" type="checkbox" onclick="saveCheckSeries()">
 		<label for="recur" style="font-size:0.8em"> All events in the series</label>
 	</div>
 	<div>
@@ -388,7 +412,7 @@
 		<img src="https://eventflairs.appspot.com/static/images/google.png" width="12" height="12">
 	</div>
 
-	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.3g</a></div>
+	<div style="text-align:right"><a href="https://eventflairs.appspot.com" target="_blank" style="background: url(https://eventflairs.appspot.com/static/images/blank.png) center right no-repeat;padding-right: 13px;">v2.4a</a></div>
 </div>
 
 
