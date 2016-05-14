@@ -37,6 +37,9 @@
         <div id="flairs-button-next" style="display: none; text-align: center; background-color: rgb(0, 0, 139); color: white; font-size: 0.8em; background-position: initial initial; background-repeat: initial initial;">Go back to gadget, click "import" and paste</div>
       </div>
       <div id="custom-icons"></div>
+      <div style="text-align:center">
+        <div id="flairs-limit-reached" style="display: none; text-align: center; background-color: rgb(227, 53, 0); color: white; font-size: 0.8em; background-position: initial initial; background-repeat: initial initial;">Limit reached, can't add more...</div>
+      </div>
     </div>
     <!-- Header Wrapper -->
       <div id="header-wrapper">
@@ -217,7 +220,18 @@
   function selectIcon(elem)
   {
     var url = elem.src;
-    // -> extract roo url and check if it exists
+    // shorten url to save space in userdefault's gadget
+    // so we can add more icons
+    $.ajax({
+      "type":"GET",
+      "url":"https://eventflairs.appspot.com/shorturl?service=goo.gl&longurl=" + url,"async":false}
+    ).done(function(resp){
+      url = JSON.parse(resp)['short']
+    }).fail(function( jqXHR, textStatus ) {
+      console.log("Will use long URL, cannot shorten URL: " + textStatus);
+    });
+
+    // -> extract root url and check if it exists
     var res = splitRootIcon(url);
     var icon = res.icon;
     var root = res.root;
@@ -228,6 +242,11 @@
     else
     {
       userFlairs[root] = [icon];
+    }
+    // check max limit (userdefault prefs gadget limit)
+    if(JSON.stringify(userFlairs).length > 1024) {
+      $("#flairs-limit-reached").show().delay(2000).fadeOut();
+      return;
     }
     // update clipboard content
     $("#flairs-button").attr("data-clipboard-text",JSON.stringify(userFlairs));
