@@ -15,15 +15,20 @@ var sets = [
 	 'description' : 'Yet another closed to original, using <a href="http://glyphicons.com/">Glyphicons</a> icons',
 	 'def' : {"https://eventflairs.appspot.com/static/images/flairs/glyphicons/glyphicons/":["272_cake.png","276_cutlery.png","000_glass.png","069_gift.png","012_heart.png","343_thumbs_up.png","344_thumbs_down.png","345_hand_right.png","020_home.png","350_shopping_bag.png","005_car.png","038_airplane.png","306_bicycle.png","458_money.png","299_hospital_h.png","290_skull.png","312_rugby.png","311_baseball.png","462_basketball.png","437_hockey.png","436_golf.png","314_table_tennis.png","329_soccer_ball.png","315_bowling.png","049_star.png","048_dislikes.png","188_brightness_reduce.png","189_brightness_increase.png","231_sun.png","230_moon.png","086_display.png","071_book.png","193_circle_ok.png","196_circle_exclamation_mark.png","176_forward.png","199_ban.png","195_circle_info.png","194_circle_question_mark.png","441_phone_alt.png","274_beer.png"]}
 	},
-	{'name' : 'Minimalistic flairs',
+	/*{'name' : 'Minimalistic flairs',
 	 'author' : 'Seb',
 	 'description' : 'Minimalistic icon set, using <a href="http://somerandomdude.com/work/iconic/">Iconic</a> collection',
 	 'def' : {"https://eventflairs.appspot.com/static/images/flairs/iconic/":["black_stop.png","blue_stop.png","brown_dark_stop.png","brown_light_stop.png","cyan_stop.png","gray_dark_stop.png","gray_light_stop.png","green_stop.png","magenta_stop.png","orange_stop.png","red_stop.png","tan_stop.png","yellow_stop.png","black_cd.png","blue_cd.png","brown_dark_cd.png","brown_light_cd.png","cyan_cd.png","gray_dark_cd.png","gray_light_cd.png","green_cd.png","magenta_cd.png","orange_cd.png","red_cd.png","tan_cd.png","yellow_cd.png","black_layers_alt.png","blue_layers_alt.png","brown_dark_layers_alt.png","brown_light_layers_alt.png","cyan_layers_alt.png","gray_dark_layers_alt.png","gray_light_layers_alt.png","green_layers_alt.png","magenta_layers_alt.png","orange_layers_alt.png","red_layers_alt.png","tan_layers_alt.png","yellow_layers_alt.png"]}
-	},
+	},*/
 	{'name' : 'Shawn flairs',
 	 'author' : 'Shawn',
 	 'description' : 'Shawn flairs, based on <a href="http://www.fatcow.com/free-icons">Fatcow</a> collection',
 	 'def' : {"https://goo.gl/":["PnqzC9","piJJfN","8vJuw9","DR8Oc2","Wv9zi8","yA5GSN","iQ9oZ9","rKHNLj","CKaZTT","awfnMu","sJqHKL","444C8C","3P1a5y","1o6ogh","dXopJ1","zXVk9D","ymzgOI","UsjE4X","vA99pV","y8Y2el","OEEVLm","9rqBPS","WdyGBV","tSJKao","eaIbmD","gAmbRW","kFZv2X","TIaEI2","nSgtYG","KOGgNx","0P7qHE","cNSYXZ","CNuSm3  ","9HNC0Y","EgxuJi","Xh7qdD","BE3pcy","hNJw9n","aBw47V","q0dvOZ","M2fTuK","6esT27","6ETOlT","iJ7xvu","R7ze4S","fIE716","c94iEv","ofNkFC","dpTDr3","sSDydk","nAiwb9","R3YhPq","ZpNsgW","Cr2rGK","hGvWEL","LMh1Ex","dsUas5","bXAT7L","eqZ8Kg","JoPWPt","ATClCU","kFGuro","1hfsVK","42piMR","hwhiux","rSkFl6","yBL8D4","IFXuSY","p9k8X5","uUWHkY","cJrBE7","dbfOMD"]}
+	},
+	{'name' : 'Suzanne flairs',
+	 'author' : 'Suzanne',
+	 'description' : 'Suzanne flairs, based on <a href="http://www.fatcow.com/free-icons">Fatcow</a> collection',
+	 'def' : {"https://goo.gl/":["VtZSh7","sNpSoq","VD2jrV","1xGVRT","3yAn9q","no3RNk","NZgZtS","sEors4","ezxeWG","JJJqYy","fUFxjI","o2JBlb","nkhJO3","SGPBt4","rqwwAW","VdXUFW","9a3gU9","YVXh4K","FyxiiS","vUuLkF","TFVIYu","zejlLX","SuUfdW","s2TrpR","0I6uwd","i1Bq70","fMmQjs","RruCWh","r9656F", "RTgTok","JhfZhx","RGZMSS","lTXAYD","w0h9sq","zXVk9D","Jrmc2q","PzbGYX","8CMlXE","QdiFDo","p3HN0d","cJrBE7","n4bJHZ","03n0we","RKVvvn","kFGuro","DvENoy","z7UJsF","mqbNy1","L1eZHA","BTgi4l","ojlsvG","9LUXq3","PMRGPz","FDtCz2","xrF5aC","deCCxu","dra7rD","lH2od2", "ezySmf","gQhhYF","n6fQ9L","rfGYFt","07fFtT","hVfzqs","SAUWwc","VO3yRn","Ow80R2","Aqml1f","Rvxqw6","efkCme","YbTZ8E","gow5n5","Cr2rGK","UkuFr8","jh67bN","qcaqUh","Y4xVUk","Xrt3NQ","D5IAiv","pt2TKS","zWWKvT","WSFe66","vw9keC","RsXIxQ","Ti0XWa","NFERDa","qiNaeF", "rKHNLj","Rcm0ol","tgzV1o","EM483H","BXP2ok","Xf3Y18","C3ljYU","SfGiBD","RXhJd1","lRgShb","nW5iqk","eH4SVq","KuNg7s","4NCRGF","ATClCU","1ChNYW","q8qlsm","MbsDPt","vJkKfn","5R4KUE","1nqZIe","72N1K9","EEGvsE"]}
 	},
 	{'name' : 'Halloween flairs',
 	 'author' : 'Gregory Gambone',
